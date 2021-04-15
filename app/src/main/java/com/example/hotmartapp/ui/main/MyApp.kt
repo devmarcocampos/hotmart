@@ -10,7 +10,7 @@ class MyApp: Application() {
 
         startKoin {
             androidContext(this@MyApp)
-            modules(listOf(retrofitModule, apiModule, mainRepositoryModule, mainViewModelModule))
+            modules(listOf(retrofitModule, apiModule, mainRepositoryModule, mainViewModelModule, detailsRepositoryModule, detailsViewModelModule))
         }
     }
 }

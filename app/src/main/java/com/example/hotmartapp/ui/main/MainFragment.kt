@@ -1,5 +1,6 @@
 package com.example.hotmartapp.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,9 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hotmartapp.R
 import com.example.hotmartapp.data.model.Location
+import com.example.hotmartapp.ui.details.DetailsActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), OnLocationClickListener {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -46,7 +48,7 @@ class MainFragment : Fragment() {
 //        txt?.text = locations[0].name
 
         val recyclerViewLocations = view?.findViewById<RecyclerView>(R.id.recyclerViewLocations)
-        val locationsAdapter = RecyclerViewAdapter(locations)
+        val locationsAdapter = RecyclerViewAdapter(locations, this)
 
         recyclerViewLocations?.let { recyclerView ->
             with(recyclerView) {
@@ -59,6 +61,13 @@ class MainFragment : Fragment() {
 
     private fun showError(error: String) {
         Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onLocationClicked(location: Location) {
+//        Toast.makeText(activity, location.name, Toast.LENGTH_LONG).show()
+
+        val intent = Intent(activity, DetailsActivity::class.java)
+        startActivity(intent)
     }
 
 }

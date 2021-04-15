@@ -1,8 +1,11 @@
 package com.example.hotmartapp.ui.main
 
+import com.example.hotmartapp.data.repository.DetailsRepository
+import com.example.hotmartapp.data.repository.DetailsRepositoryImpl
 import com.example.hotmartapp.data.repository.MainRepository
 import com.example.hotmartapp.data.repository.MainRepositoryImpl
 import com.example.hotmartapp.source.remote.Api
+import com.example.hotmartapp.ui.details.DetailsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -16,6 +19,16 @@ val mainViewModelModule = module {
 
 val mainRepositoryModule = module {
     single<MainRepository> { MainRepositoryImpl(get()) }
+}
+
+val detailsViewModelModule = module {
+    viewModel {
+        DetailsViewModel(get())
+    }
+}
+
+val detailsRepositoryModule = module {
+    single<DetailsRepository> { DetailsRepositoryImpl(get()) }
 }
 
 val apiModule = module {
