@@ -32,7 +32,11 @@ class RecyclerViewAdapter(
                 locationImageView.setImageResource(R.drawable.ic_launcher_background)
             }.build()
 
-            picasso.load("https://pixabay.com/get/gb99a53a57ca642d1f80f1447ae583ac79614adb96b4adfaa77e616ab4f5a2cefd21f5c050661e355ed80357aec9b2b463e34ff76ae1949df0a4997b44ea25541_640.jpg")
+//            picasso.load("https://pixabay.com/get/gb99a53a57ca642d1f80f1447ae583ac79614adb96b4adfaa77e616ab4f5a2cefd21f5c050661e355ed80357aec9b2b463e34ff76ae1949df0a4997b44ea25541_640.jpg")
+//                    .into(locationImageView)
+
+            picasso.load(item.image.webformatURL)
+                    .fit()
                     .into(locationImageView)
 
 

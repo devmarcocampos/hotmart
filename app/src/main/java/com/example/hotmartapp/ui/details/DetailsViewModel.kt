@@ -3,12 +3,16 @@ package com.example.hotmartapp.ui.details
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.hotmartapp.data.repository.DetailsRepository
+import com.example.hotmartapp.data.repository.ImageRepository
 import com.example.hotmartapp.ui.main.BaseViewModel
 import com.example.hotmartapp.ui.main.MainViewState
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class DetailsViewModel(private val detailsRepository: DetailsRepository) : BaseViewModel() {
+class DetailsViewModel(
+        private val detailsRepository: DetailsRepository,
+        private val imageRepository: ImageRepository
+) : BaseViewModel() {
     private val _states = MutableLiveData<MainViewState>()
     val states: LiveData<MainViewState>
         get() =_states
@@ -19,6 +23,17 @@ class DetailsViewModel(private val detailsRepository: DetailsRepository) : BaseV
                 val response = detailsRepository.getLocationDetails(id)
                 println(response)
                 _states.value = MainViewState.ShowLocationDetails(response)
+            } catch (exception: Exception) {
+                _states.value = MainViewState.ShowError(exception.toString())
+            }
+        }
+    }
+
+    fun getFoods() {
+        launch {
+            try {
+                val response = imageRepository.getFoods()
+                _states.value = MainViewState.ShowFoods(response.hits)
             } catch (exception: Exception) {
                 _states.value = MainViewState.ShowError(exception.toString())
             }

@@ -12,8 +12,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hotmartapp.R
+import com.example.hotmartapp.data.model.Image
 import com.example.hotmartapp.data.model.Location
 import com.example.hotmartapp.ui.details.DetailsActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment(), OnLocationClickListener {
@@ -23,6 +27,9 @@ class MainFragment : Fragment(), OnLocationClickListener {
     }
 
     private val mainViewModel: MainViewModel by viewModel()
+
+    lateinit var myLocations: ArrayList<Location>
+    lateinit var myImages: ArrayList<Image>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -36,19 +43,34 @@ class MainFragment : Fragment(), OnLocationClickListener {
             when (state) {
                 is MainViewState.ShowLocations -> showLocations(state.locations)
                 is MainViewState.ShowError -> showError(state.error)
+                is MainViewState.ShowImages -> showImages(state.images)
             }
 
         })
 
-        mainViewModel.getLocations()
+//        CoroutineScope()
+
+//        val uiScope: CoroutineScope = MainScope()
+//        uiScope.launch {
+//            mainViewModel.getImages().await
+//        }
+
+        mainViewModel.getImages()
+
     }
 
     private fun showLocations(locations: ArrayList<Location>) {
 //        val txt = view?.findViewById<TextView>(R.id.message)
 //        txt?.text = locations[0].name
 
+        myLocations = locations
+
+        myLocations.forEachIndexed { index, location ->
+            location.image = myImages[index]
+        }
+
         val recyclerViewLocations = view?.findViewById<RecyclerView>(R.id.recyclerViewLocations)
-        val locationsAdapter = RecyclerViewAdapter(locations, this)
+        val locationsAdapter = RecyclerViewAdapter(myLocations, this)
 
         recyclerViewLocations?.let { recyclerView ->
             with(recyclerView) {
@@ -63,10 +85,32 @@ class MainFragment : Fragment(), OnLocationClickListener {
         Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
     }
 
+    private fun showImages(images: ArrayList<Image>) {
+        Toast.makeText(activity, images[0].type, Toast.LENGTH_LONG).show()
+
+        myImages = images
+        mainViewModel.getLocations()
+
+
+//        for (0...loc in myLocations) {
+//            lo
+//        }
+//
+//        arr.forEachIndexed { index, e ->
+//            println("$e at $index")
+//        }
+
+//        myLocations.forEachIndexed { index, location ->
+//            location.image = images[index]
+//        }
+
+    }
+
     override fun onLocationClicked(location: Location) {
 //        Toast.makeText(activity, location.name, Toast.LENGTH_LONG).show()
 
         val intent = Intent(activity, DetailsActivity::class.java)
+        intent.putExtra("locationSelected", location)
         startActivity(intent)
     }
 

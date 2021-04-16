@@ -1,6 +1,7 @@
 package com.example.hotmartapp.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Location (
     @SerializedName("id")
@@ -10,8 +11,9 @@ data class Location (
     @SerializedName("review")
     var review: Double,
     @SerializedName("type")
-    var type: String
-)
+    var type: String,
+    var image: Image
+) : Serializable
 
 data class ResponseLocation(
     @SerializedName("listLocations")
@@ -29,12 +31,15 @@ data class LocationDetails(
     var type: String,
     @SerializedName("about")
     var about: String,
-    @SerializedName("schedule")
-    var schedule: ArrayList<Schedule>,
     @SerializedName("phone")
     var phone: String,
     @SerializedName("adress")
-    var adress: String
+    var adress: String,
+    @SerializedName("schedule")
+    var schedule: Any
+
+// @SerializedName("schedule")
+//    var schedule: ArrayList<Schedule>,
 )
 
 data class Schedule(
