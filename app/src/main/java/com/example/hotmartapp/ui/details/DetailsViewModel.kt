@@ -33,6 +33,7 @@ class DetailsViewModel(
         launch {
             try {
                 val response = imageRepository.getFoods()
+                println(response)
                 _states.value = MainViewState.ShowFoods(response.hits)
             } catch (exception: Exception) {
                 _states.value = MainViewState.ShowError(exception.toString())

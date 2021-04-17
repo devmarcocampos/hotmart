@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hotmartapp.R
@@ -19,11 +20,13 @@ class RecyclerViewAdapter(
         val locationImageView = view.findViewById<ImageView>(R.id.locationImage)
         val locationNameTextView = view.findViewById<TextView>(R.id.locationName)
         val locationTypeTextView = view.findViewById<TextView>(R.id.locationType)
+        val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
         val locationReviewTextView = view.findViewById<TextView>(R.id.locationReview)
 
         fun bind(item: Location) {
             locationNameTextView.text = item.name
             locationTypeTextView.text = item.type
+            ratingBar.rating = item.review.toFloat()
             locationReviewTextView.text = item.review.toString()
 
             val picasso = Picasso.Builder(view.context).listener { _, _, exception ->

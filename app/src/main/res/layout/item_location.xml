@@ -10,12 +10,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp">
 
         <ImageView
             android:id="@+id/locationImage"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,6 +24,11 @@
             android:id="@+id/locationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#14adb8"
+            android:fontFamily="sans-serif"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locationImage" />
 
@@ -30,15 +36,44 @@
             android:id="@+id/locationType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="sans-serif"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            app:layout_constraintStart_toStartOf="@+id/locationName"
             app:layout_constraintTop_toBottomOf="@+id/locationName" />
+
+<!--        <hyogeun.github.com.colorratingbarlib.ColorRatingBar-->
+<!--            android:id="@+id/ratingBar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:rating="3.8"-->
+<!--            app:empty_color="#33000000"-->
+<!--            app:progress_color="#FFC71E"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/locationType"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rating="3"
+            android:theme="@style/RatingBar"
+            style="?android:attr/ratingBarStyleSmall"
+            app:layout_constraintStart_toStartOf="@+id/locationName"
+            app:layout_constraintTop_toBottomOf="@+id/locationType"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/locationReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/locationType" />
+            android:layout_marginStart="4dp"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/ratingBar"
+            app:layout_constraintTop_toTopOf="@+id/ratingBar"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

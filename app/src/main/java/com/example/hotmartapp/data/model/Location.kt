@@ -44,19 +44,19 @@ data class LocationDetails(
 
 data class Schedule(
     @SerializedName("sunday")
-    var sunday: Day,
+    var sunday: Day?,
     @SerializedName("monday")
-    var monday: Day,
+    var monday: Day?,
     @SerializedName("tuesday")
-    var tuesday: Day,
+    var tuesday: Day?,
     @SerializedName("wednesday")
-    var wednesday: Day,
+    var wednesday: Day?,
     @SerializedName("thursday")
-    var thursday: Day,
+    var thursday: Day?,
     @SerializedName("friday")
-    var friday: Day,
+    var friday: Day?,
     @SerializedName("saturday")
-    var saturday: Day
+    var saturday: Day?
 
 )
 
@@ -64,5 +64,6 @@ data class Day(
     @SerializedName("open")
     var open: String,
     @SerializedName("close")
-    var close: String
+    var close: String,
+    var name: String
 )

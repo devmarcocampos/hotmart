@@ -1,26 +1,30 @@
 package com.example.hotmartapp.ui.details
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hotmartapp.R
-import com.example.hotmartapp.data.model.Image
-import com.example.hotmartapp.data.model.Location
-import com.example.hotmartapp.data.model.LocationDetails
-import com.example.hotmartapp.ui.main.MainViewModel
+import com.example.hotmartapp.data.model.*
 import com.example.hotmartapp.ui.main.MainViewState
 import com.example.hotmartapp.ui.main.RecyclerViewAdapter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class DetailsFragment(
         private val locationSelected: Location
@@ -42,6 +46,9 @@ class DetailsFragment(
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+//        activity?.actionBar?.hide()
+//        activity?.action
+
         detailsViewModel.states.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is MainViewState.ShowLocationDetails -> showLocationDetails(state.locationDetails)
@@ -59,6 +66,9 @@ class DetailsFragment(
         val txt = view?.findViewById<TextView>(R.id.nameLocation)
         txt?.text = locationDetails.name
 
+        val ratingBar = view?.findViewById<RatingBar>(R.id.ratingBar)
+        ratingBar?.rating = locationDetails.review.toFloat()
+
         val nota = view?.findViewById<TextView>(R.id.grade)
         nota?.text = locationDetails.review.toString()
 
@@ -67,6 +77,12 @@ class DetailsFragment(
 
         val reviewsTextView = view?.findViewById<TextView>(R.id.reviewsDescription)
         reviewsTextView?.text = locationDetails.about
+
+        val phoneTextView = view?.findViewById<TextView>(R.id.phoneTextView)
+        phoneTextView?.text = locationDetails.phone
+
+        val addressTextView = view?.findViewById<TextView>(R.id.addressTextView)
+        addressTextView?.text = locationDetails.adress
 
         val image = view?.findViewById<ImageView>(R.id.imageLocation)
 
@@ -81,6 +97,154 @@ class DetailsFragment(
         picasso?.load(locationSelected.image.webformatURL)
                 ?.fit()
                 ?.into(image)
+
+        handleSchedule(locationDetails.schedule)
+    }
+
+    private fun handleSchedule(schedule: Any) {
+        lateinit var locationSchedule: Schedule
+        var scheduleDays = ArrayList<Day>()
+
+        if (schedule is ArrayList<*>) {
+            val gson = Gson()
+            val itemType = object : TypeToken<List<Schedule>>() {}.type
+            val itemList = gson.fromJson<List<Schedule>>(schedule.toString(), itemType)
+            locationSchedule = itemList[0]
+        } else {
+            val arr: Schedule? = Gson().fromJson(schedule.toString(), Schedule::class.java)
+            arr?.let {
+                locationSchedule = it
+            }
+        }
+
+        locationSchedule.monday?.let {
+            it.name = "seg"
+            scheduleDays.add(it)
+        }
+
+        locationSchedule.friday?.let {
+            it.name = "sex"
+            scheduleDays.add(it)
+        }
+
+        locationSchedule.saturday?.let {
+            it.name = "sab"
+            scheduleDays.add(it)
+        }
+
+        locationSchedule.sunday?.let {
+            it.name = "dom"
+            scheduleDays.add(it)
+        }
+
+        locationSchedule.thursday?.let {
+            it.name = "qui"
+            scheduleDays.add(it)
+        }
+
+        locationSchedule.tuesday?.let {
+            it.name = "ter"
+            scheduleDays.add(it)
+        }
+
+        locationSchedule.wednesday?.let {
+            it.name = "qua"
+            scheduleDays.add(it)
+        }
+
+
+        println(scheduleDays)
+
+
+        val recyclerViewSchedule = view?.findViewById<RecyclerView>(R.id.recyclerViewSchedule)
+        val scheduleAdapter = RecyclerViewScheduleAdapter(scheduleDays)
+
+        recyclerViewSchedule?.let { recyclerView ->
+            with(recyclerView) {
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                adapter = scheduleAdapter
+                setHasFixedSize(false)
+            }
+        }
+
+
+        getComments()
+
+
+
+
+
+//        val gson = Gson()
+//        val itemType = object : TypeToken<List<Schedule>>() {}.type
+//        val itemList = gson.fromJson<List<Schedule>>(schedule.toString(), itemType)
+//
+//        println(itemList)
+
+
+//        val arrs: ArrayList<Schedule>? = Gson().fromJson(schedule.toString(), Schedule::class.java)
+//        println(arrs)
+
+
+//        val schedules: ArrayList<Schedule>
+//
+//
+//        if (schedule is ArrayList<*>) {
+//            val arr: Schedule? = Gson().fromJson(schedule.toString(), Schedule::class.java)
+//        } else {
+//            val arr: Schedule? = Gson().fromJson(schedule.toString(), Schedule::class.java)
+//            arr?.let {
+//                schedules = arrayListOf(it)
+//            }
+//        }
+
+
+
+        //Schedule
+        //ArrayList<Schedule>
+
+//        when (schedule) {
+//            is Schedule -> showSchedule(arrayListOf(schedule))
+//            is ArrayList<*> -> showSchedule(schedule as ArrayList<Schedule>)
+//        }
+
+//        val a = schedule as Schedule
+//        println(schedule)
+
+//        val a = schedule as Schedule
+//        val b = a.monday?.open
+
+//        try {
+//            val a = schedule as Schedule
+//            val b = a.monday?.open
+//        } catch (exception: Exception) {
+//            println(exception)
+//        }
+
+//        Toast.makeText(activity, schedule.friday?.open, Toast.LENGTH_LONG).show()
+
+//        val arr: Schedule? = Gson().fromJson(schedule.toString(), Schedule::class.java)
+//
+//        println(arr)
+//        Gson().from
+//
+//        val name: String =
+//            stringToArray(id.message, Array<Product>::class.java).get(0).getName()
+
+    }
+
+//    fun <T> stringToArray(
+//        s: String?,
+//        clazz: Class<Array<T>?>?
+//    ): MutableList<Array<T>?> {
+//        val arr: Array<T>? = Gson().fromJson(s, clazz)
+//        return Arrays.asList(arr) //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
+//    }
+
+    private fun showSchedule(schedule: ArrayList<Schedule>) {
+//        Toast.makeText(activity, schedule[0].friday.open, Toast.LENGTH_LONG).show()
+        println("----------------- " + schedule[0].friday?.open)
+
+        schedule[0]
     }
 
     private fun showFoods(foods: ArrayList<Image>) {
@@ -99,4 +263,36 @@ class DetailsFragment(
         }
     }
 
+    private fun getComments() {
+        val jsonFileString = activity?.applicationContext?.let { getJsonDataFromAsset(it, "Commentsjson.json") }
+        val responseComment: ResponseComment? = Gson().fromJson(jsonFileString.toString(), ResponseComment::class.java)
+
+//        arr?.let {
+//            val a = it.listComments[0].description
+//        }
+
+        responseComment?.let { response ->
+            val recyclerViewComments = view?.findViewById<RecyclerView>(R.id.recyclerViewComments)
+            val commentsAdapter = RecyclerViewCommentsAdapter(response.listComments)
+
+            recyclerViewComments?.let { recyclerView ->
+                with(recyclerView) {
+                    layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                    adapter = commentsAdapter
+                    setHasFixedSize(false)
+                }
+            }
+        }
+    }
+
+    fun getJsonDataFromAsset(context: Context, fileName: String): String? {
+        val jsonString: String
+        try {
+            jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
+        } catch (ioException: IOException) {
+            ioException.printStackTrace()
+            return null
+        }
+        return jsonString
+    }
 }
