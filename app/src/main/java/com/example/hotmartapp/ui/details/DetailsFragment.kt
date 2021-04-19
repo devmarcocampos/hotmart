@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -36,6 +38,8 @@ class DetailsFragment(
 
     private val detailsViewModel: DetailsViewModel by viewModel()
 
+    lateinit var progressBar: ProgressBar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +49,11 @@ class DetailsFragment(
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        view?.let {
+            progressBar = it.findViewById(R.id.progressBar)
+        }
+
 
 //        activity?.actionBar?.hide()
 //        activity?.action
@@ -59,7 +68,7 @@ class DetailsFragment(
 //        detailsViewModel.getLocationDetails(1)
         detailsViewModel.getLocationDetails(locationSelected.id)
 
-        detailsViewModel.getFoods()
+//        detailsViewModel.getFoods()
     }
 
     private fun showLocationDetails(locationDetails: LocationDetails) {
@@ -99,6 +108,8 @@ class DetailsFragment(
                 ?.into(image)
 
         handleSchedule(locationDetails.schedule)
+
+        detailsViewModel.getFoods()
     }
 
     private fun handleSchedule(schedule: Any) {
@@ -261,6 +272,11 @@ class DetailsFragment(
                 setHasFixedSize(false)
             }
         }
+
+        progressBar.visibility = View.GONE
+
+        val containerDetails = view?.findViewById<ConstraintLayout>(R.id.containerDetails)
+        containerDetails?.visibility = View.VISIBLE
     }
 
     private fun getComments() {

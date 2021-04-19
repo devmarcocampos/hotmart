@@ -12,8 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HotmartApp">
-        <activity android:name=".ui.details.DetailsActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".ui.details.DetailsActivity"
+            android:theme="@style/Theme.HotmartAppNoActionBar" />
+        <activity android:name=".MainActivity"
+            android:label="Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

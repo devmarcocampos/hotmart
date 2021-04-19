@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -36,6 +37,8 @@ class MainFragment : Fragment(), OnLocationClickListener {
     lateinit var myLocations: ArrayList<Location>
     lateinit var myImages: ArrayList<Image>
 
+    lateinit var progressBar: ProgressBar
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.main_fragment, container, false)
@@ -43,6 +46,10 @@ class MainFragment : Fragment(), OnLocationClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        view?.let {
+            progressBar = it.findViewById(R.id.progressBar)
+        }
 
 
 //        val jsonFileString = activity?.applicationContext?.let { getJsonDataFromAsset(it, "Testjson.json") }
@@ -119,8 +126,12 @@ class MainFragment : Fragment(), OnLocationClickListener {
                 layoutManager = GridLayoutManager(activity, 2)
                 adapter = locationsAdapter
                 setHasFixedSize(false)
+                visibility = View.VISIBLE
             }
         }
+
+        progressBar.visibility = View.GONE
+//        recyclerViewLocations?.visibility = View.VISIBLE
     }
 
     private fun showError(error: String) {
@@ -151,11 +162,11 @@ class MainFragment : Fragment(), OnLocationClickListener {
     override fun onLocationClicked(location: Location) {
 //        Toast.makeText(activity, location.name, Toast.LENGTH_LONG).show()
 
-//        val intent = Intent(activity, DetailsActivity::class.java)
-//        intent.putExtra("locationSelected", location)
-//        startActivity(intent)
+        val intent = Intent(activity, DetailsActivity::class.java)
+        intent.putExtra("locationSelected", location)
+        startActivity(intent)
 
-        (activity as MainActivity).setCurrentFragment(DetailsFragment.newInstance(location))
+//        (activity as MainActivity).setCurrentFragment(DetailsFragment.newInstance(location))
     }
 
 }

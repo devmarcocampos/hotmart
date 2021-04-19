@@ -59,6 +59,10 @@ class MainActivity : AppCompatActivity() {
                 addToBackStack(null)
                 commit()
             }
+
+    fun goToDetailsActivity() {
+
+    }
 }
 
 class FirstFragment: Fragment(R.layout.fragment_first) {

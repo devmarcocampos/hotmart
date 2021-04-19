@@ -12,6 +12,8 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.details_activity)
 
+        actionBar?.hide()
+
         val locationSelected = intent.getSerializableExtra("locationSelected") as? Location
 
         if (savedInstanceState == null) {
