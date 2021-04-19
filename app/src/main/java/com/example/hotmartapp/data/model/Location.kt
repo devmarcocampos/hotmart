@@ -37,9 +37,6 @@ data class LocationDetails(
     var adress: String,
     @SerializedName("schedule")
     var schedule: Any
-
-// @SerializedName("schedule")
-//    var schedule: ArrayList<Schedule>,
 )
 
 data class Schedule(
@@ -57,7 +54,6 @@ data class Schedule(
     var friday: Day?,
     @SerializedName("saturday")
     var saturday: Day?
-
 )
 
 data class Day(

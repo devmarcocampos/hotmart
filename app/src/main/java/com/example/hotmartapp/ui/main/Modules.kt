@@ -35,60 +35,9 @@ val detailsRepositoryModule = module {
     single<DetailsRepository> { DetailsRepositoryImpl(get()) }
 }
 
-
-//
 val imageRepositoryModule = module {
     single<ImageRepository> { ImageRepositoryImpl(get()) }
 }
-//
-
-
-//val apiModule = module {
-//    fun providesApi(retrofit: Retrofit): Api =
-//        retrofit.create(Api::class.java)
-//
-//    single { providesApi(get()) }
-//}
-//
-//val retrofitModule = module {
-//    fun providesRetrofit(): Retrofit {
-//        val BASE_URL = "https://hotmart-mobile-app.herokuapp.com/"
-//
-//        return Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//
-//    single { providesRetrofit() }
-//}
-
-
-
-
-/////////////////////////////////////////
-
-//val apiModuleImage = module {
-//    fun providesApi(retrofit: Retrofit): ApiImage =
-//            retrofit.create(ApiImage::class.java)
-//
-//    single { providesApi(get()) }
-//}
-//
-//val retrofitImageModule = module {
-//    fun providesRetrofit(): Retrofit {
-//        val BASE_URL = "https://pixabay.com/api/"
-//
-//        return Retrofit.Builder()
-//                .baseUrl(BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build()
-//    }
-//
-//    single { providesRetrofit() }
-//}
-
-//
 
 val ctx = MyApp.applicationContext()
 
@@ -103,7 +52,6 @@ fun hasNetwork(context: Context): Boolean? {
         isConnected = true
     return isConnected
 }
-
 
 fun provideOfflineCacheInterceptor(context: Context): Interceptor {
     return Interceptor { chain ->
@@ -126,7 +74,7 @@ fun provideCacheInterceptor(context: Context): Interceptor {
         } else {
             "public, max-age=" + 5
         }
-        //request = request.newBuilder().build()
+
         val response = chain.proceed(request)
         response.newBuilder()
                 .removeHeader("Pragma")
@@ -135,7 +83,6 @@ fun provideCacheInterceptor(context: Context): Interceptor {
                 .build()
     }
 }
-
 
 fun networkModule() = module {
     val okHttpClient = OkHttpClient.Builder()

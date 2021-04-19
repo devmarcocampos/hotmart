@@ -12,19 +12,16 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hotmartapp.R
 import com.example.hotmartapp.data.model.*
 import com.example.hotmartapp.ui.main.MainViewState
-import com.example.hotmartapp.ui.main.RecyclerViewAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.IOException
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -54,10 +51,6 @@ class DetailsFragment(
             progressBar = it.findViewById(R.id.progressBar)
         }
 
-
-//        activity?.actionBar?.hide()
-//        activity?.action
-
         detailsViewModel.states.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is MainViewState.ShowLocationDetails -> showLocationDetails(state.locationDetails)
@@ -65,10 +58,7 @@ class DetailsFragment(
             }
         })
 
-//        detailsViewModel.getLocationDetails(1)
         detailsViewModel.getLocationDetails(locationSelected.id)
-
-//        detailsViewModel.getFoods()
     }
 
     private fun showLocationDetails(locationDetails: LocationDetails) {
@@ -163,10 +153,6 @@ class DetailsFragment(
             scheduleDays.add(it)
         }
 
-
-        println(scheduleDays)
-
-
         val recyclerViewSchedule = view?.findViewById<RecyclerView>(R.id.recyclerViewSchedule)
         val scheduleAdapter = RecyclerViewScheduleAdapter(scheduleDays)
 
@@ -180,88 +166,9 @@ class DetailsFragment(
 
 
         getComments()
-
-
-
-
-
-//        val gson = Gson()
-//        val itemType = object : TypeToken<List<Schedule>>() {}.type
-//        val itemList = gson.fromJson<List<Schedule>>(schedule.toString(), itemType)
-//
-//        println(itemList)
-
-
-//        val arrs: ArrayList<Schedule>? = Gson().fromJson(schedule.toString(), Schedule::class.java)
-//        println(arrs)
-
-
-//        val schedules: ArrayList<Schedule>
-//
-//
-//        if (schedule is ArrayList<*>) {
-//            val arr: Schedule? = Gson().fromJson(schedule.toString(), Schedule::class.java)
-//        } else {
-//            val arr: Schedule? = Gson().fromJson(schedule.toString(), Schedule::class.java)
-//            arr?.let {
-//                schedules = arrayListOf(it)
-//            }
-//        }
-
-
-
-        //Schedule
-        //ArrayList<Schedule>
-
-//        when (schedule) {
-//            is Schedule -> showSchedule(arrayListOf(schedule))
-//            is ArrayList<*> -> showSchedule(schedule as ArrayList<Schedule>)
-//        }
-
-//        val a = schedule as Schedule
-//        println(schedule)
-
-//        val a = schedule as Schedule
-//        val b = a.monday?.open
-
-//        try {
-//            val a = schedule as Schedule
-//            val b = a.monday?.open
-//        } catch (exception: Exception) {
-//            println(exception)
-//        }
-
-//        Toast.makeText(activity, schedule.friday?.open, Toast.LENGTH_LONG).show()
-
-//        val arr: Schedule? = Gson().fromJson(schedule.toString(), Schedule::class.java)
-//
-//        println(arr)
-//        Gson().from
-//
-//        val name: String =
-//            stringToArray(id.message, Array<Product>::class.java).get(0).getName()
-
-    }
-
-//    fun <T> stringToArray(
-//        s: String?,
-//        clazz: Class<Array<T>?>?
-//    ): MutableList<Array<T>?> {
-//        val arr: Array<T>? = Gson().fromJson(s, clazz)
-//        return Arrays.asList(arr) //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
-//    }
-
-    private fun showSchedule(schedule: ArrayList<Schedule>) {
-//        Toast.makeText(activity, schedule[0].friday.open, Toast.LENGTH_LONG).show()
-        println("----------------- " + schedule[0].friday?.open)
-
-        schedule[0]
     }
 
     private fun showFoods(foods: ArrayList<Image>) {
-//        val fotos = view?.findViewById<TextView>(R.id.fotos)
-//        fotos?.text = foods[0].id.toString()
-
         val recyclerViewFotos = view?.findViewById<RecyclerView>(R.id.recyclerViewFotos)
         val fhotosAdapter = RecyclerViewFhotosAdapter(foods)
 
@@ -282,10 +189,6 @@ class DetailsFragment(
     private fun getComments() {
         val jsonFileString = activity?.applicationContext?.let { getJsonDataFromAsset(it, "Commentsjson.json") }
         val responseComment: ResponseComment? = Gson().fromJson(jsonFileString.toString(), ResponseComment::class.java)
-
-//        arr?.let {
-//            val a = it.listComments[0].description
-//        }
 
         responseComment?.let { response ->
             val recyclerViewComments = view?.findViewById<RecyclerView>(R.id.recyclerViewComments)

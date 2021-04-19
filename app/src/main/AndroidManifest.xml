@@ -15,9 +15,12 @@
         android:theme="@style/Theme.HotmartApp">
         <activity
             android:name=".ui.details.DetailsActivity"
-            android:theme="@style/Theme.HotmartAppNoActionBar" />
-        <activity android:name=".MainActivity"
-            android:label="Home">
+            android:theme="@style/Theme.HotmartAppNoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:label="Home"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

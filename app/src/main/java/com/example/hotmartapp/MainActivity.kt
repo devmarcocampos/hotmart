@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
 
             val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-//            val firstFragment=FirstFragment()
             val firstFragment = MainFragment.newInstance()
             val secondFragment=SecondFragment()
             val thirdFragment=ThirdFragment()
@@ -25,31 +24,17 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.setOnNavigationItemSelectedListener {
                 when(it.itemId){
                     R.id.home -> {
-//                        it.setIcon(R.drawable.ic_home_on)
                         setCurrentFragment(firstFragment)
                     }
-
                     R.id.map -> {
-//                        it.setIcon(R.drawable.ic_map_on)
                         setCurrentFragment(secondFragment)
                     }
-
                     R.id.profile -> {
-//                        it.setIcon(R.drawable.ic_profile_on)
                         setCurrentFragment(thirdFragment)
                     }
-
                 }
                 true
             }
-
-
-
-
-            //
-//            supportFragmentManager.beginTransaction()
-//                    .replace(R.id.container, MainFragment.newInstance())
-//                    .commitNow()
         }
     }
 
@@ -59,10 +44,6 @@ class MainActivity : AppCompatActivity() {
                 addToBackStack(null)
                 commit()
             }
-
-    fun goToDetailsActivity() {
-
-    }
 }
 
 class FirstFragment: Fragment(R.layout.fragment_first) {

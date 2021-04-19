@@ -1,6 +1,5 @@
 package com.example.hotmartapp.ui.details
 
-import android.R.attr.radius
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,11 +39,6 @@ class RecyclerViewCommentsAdapter(
             picasso.load(comment.author)
                 .fit().centerCrop()
                 .into(profileImageView)
-
-//            picasso.load(comment.author)
-//                .transform(RoundedCornersTransformation(radius, margin))
-
-//            Picasso.with(activity).load(url).transform(CircleTransform()).into(imageView)
         }
     }
 

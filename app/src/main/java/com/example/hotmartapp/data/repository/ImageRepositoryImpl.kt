@@ -1,8 +1,6 @@
 package com.example.hotmartapp.data.repository
 
 import com.example.hotmartapp.data.model.ImageResponse
-import com.example.hotmartapp.data.model.ResponseLocation
-import com.example.hotmartapp.source.remote.Api
 import com.example.hotmartapp.source.remote.ApiImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -37,8 +37,4 @@
     <style name="ImageView.Round" parent="">
         <item name="cornerSize">50%</item>
     </style>
-
-<!--    <style name="MyActionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">-->
-<!--        <item name="android:textColorPrimary">#ff00ff</item>-->
-<!--    </style>-->
 </resources>

@@ -25,7 +25,6 @@ class MyApp: Application() {
         startKoin {
             androidContext(this@MyApp)
             modules(listOf(networkModule(), networkImageModule(), imageRepositoryModule, mainRepositoryModule, mainViewModelModule, detailsRepositoryModule, detailsViewModelModule))
-//            modules(listOf(retrofitModule, apiModule, mainRepositoryModule, mainViewModelModule, detailsRepositoryModule, detailsViewModelModule))
         }
     }
 }
