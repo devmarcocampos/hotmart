@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
 
+            supportActionBar?.title = "Home"
+
             val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
             val firstFragment = MainFragment.newInstance()
