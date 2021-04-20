@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
             val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
             val firstFragment = MainFragment.newInstance()
-            val secondFragment=SecondFragment()
-            val thirdFragment=ThirdFragment()
+            val secondFragment=MapFragment()
+            val thirdFragment=ProfileFragment()
 
             setCurrentFragment(firstFragment)
 
@@ -48,11 +48,8 @@ class MainActivity : AppCompatActivity() {
             }
 }
 
-class FirstFragment: Fragment(R.layout.fragment_first) {
+class MapFragment:Fragment(R.layout.fragment_map) {
 }
 
-class SecondFragment:Fragment(R.layout.fragment_second) {
-}
-
-class ThirdFragment:Fragment(R.layout.fragment_third) {
+class ProfileFragment:Fragment(R.layout.fragment_profile) {
 }
