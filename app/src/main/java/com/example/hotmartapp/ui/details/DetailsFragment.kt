@@ -1,7 +1,12 @@
 package com.example.hotmartapp.ui.details
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +25,9 @@ import com.example.hotmartapp.ui.main.MainViewState
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import kotlin.collections.ArrayList
 
@@ -102,6 +109,24 @@ class DetailsFragment(
         detailsViewModel.getFoods()
     }
 
+    fun shareImage() {
+        val picasso = context?.let {
+            Picasso.Builder(it).listener { _, _, exception ->
+                exception?.printStackTrace()
+                println("Picasso loading failed : ${exception?.message}")
+            }.build()
+        }
+
+        val teste = activity?.applicationContext?.let { MyTarget(it) }
+
+        teste?.let {t ->
+            picasso?.let {
+                it.load(locationSelected.image.webformatURL)
+                        .into(t)
+            }
+        }
+    }
+
     private fun handleSchedule(schedule: Any) {
         lateinit var locationSchedule: Schedule
         var scheduleDays = ArrayList<Day>()
@@ -164,7 +189,6 @@ class DetailsFragment(
             }
         }
 
-
         getComments()
     }
 
@@ -213,5 +237,35 @@ class DetailsFragment(
             return null
         }
         return jsonString
+    }
+}
+
+class MyTarget(val ctx: Context): Target {
+    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
+
+    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+        bitmap?.let {
+            showShareIntent(ctx, it)
+        }
+    }
+
+    private fun showShareIntent(context: Context, btm: Bitmap) {
+        val intent = Intent(Intent.ACTION_SEND).setType("image/*")
+
+        val bitmap = btm
+
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+
+        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "tempimage", null)
+
+        val uri = Uri.parse(path)
+
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+        context.startActivity(intent)
     }
 }
